@@ -4,6 +4,7 @@ require 'haml'
 require 'epitools/path'
 
 set :server, :thin
+set :bind, '0.0.0.0'
 
 $songroot = Path["~/ktorr"]
 $songs = {} # filename => fullpath mapping
