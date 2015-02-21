@@ -13,25 +13,17 @@ def rescan
   puts "===> #{$songs.size} songs found"
 end
 
-def getsongs
+def all_songs
   rescan
   $songs.select { |k,v| k[/\.cdg$/] }.map { |k,v| v.basename }
 end
 
 get "/" do
-  @song_names = getsongs
+  @song_names = all_songs
   haml :index
 end
 
 get "/k/*" do
-  # stream do |out|
-  #   out << "It's gonna be legen -\n"
-  #   sleep 0.5
-  #   out << " (wait for it) \n"
-  #   sleep 1
-  #   out << "- dary!\n"
-  # end
-  rescan
   filename = params["splat"].first
 
   if path = $songs[filename]
