@@ -67,5 +67,6 @@
 
     / %select{:onchange => "set_file_prefix(this.value)", :size => "1", :style => "width:324px; margin:0px; color:#00dddd; background-color:#444444"; }
     %select#chosen-select{"data-placeholder" => "Choose a song..."}
+      %option{}
       - @song_names.each do |song_name|
         %option{:value => "k/#{song_name}:k/#{song_name}"}= song_name
