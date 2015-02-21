@@ -37,7 +37,8 @@ var XML_STATUS_TEXT = new Array( "No operations pending.",
                                  "Setting up file request...",
                                  "Headers received...",
                                  "Downloading graphics data...",
-                                 "Graphics download complete." );
+                                 " " // Graphics download complete.
+                               );
 
 function CDG_Player_init( audio_id, canvas_id, border_id, status_id )
 {
@@ -107,7 +108,7 @@ function xml_status_handler()
     // Just return if there's not a valid XML object... (I don't understand why/how this happens, but it does?!...)
     if (xml_file_request == null) { return; };
     // Initial status text string.
-    var status_text = "Status: " + XML_STATUS_TEXT[ xml_file_request.readyState ];
+    var status_text = XML_STATUS_TEXT[ xml_file_request.readyState ];
     // Try out a progressive download here...
     if (xml_file_request.readyState == 3)
     {
