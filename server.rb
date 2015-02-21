@@ -9,7 +9,7 @@ $songroot = Path["~/ktorr"]
 $songs = {} # filename => fullpath mapping
 
 def rescan
-  $songs = $songroot.ls_r.select {|song| song.file? }.map { |song| [song.filename, song] }.to_h
+  $songs = $songroot.ls_r(true).select {|song| song.file? }.map { |song| [song.filename, song] }.to_h
   puts "===> #{$songs.size} songs found"
 end
 
