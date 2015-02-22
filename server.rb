@@ -76,19 +76,18 @@ def rescan_files!
                compact.
                to_h
   end          
-
   puts "===> #{$paths.size} files found"
 end
 
 def all_songs
-  # TODO: Only refresh the songlist if the directory listing has changed
+  # TODO: Only refresh the songlist if the directory changed
   rescan_files!
-
   time("convert to songs") do
     $paths.map { |name, path| Song.new(path.basename) if path.ext == "cdg" }. # convert paths to songs
     compact. # remove "nil" entries from the array
     sort_by { |song| song.name }
   end
+
 end
 
 #######################################################################################################
