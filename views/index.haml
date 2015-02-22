@@ -24,17 +24,18 @@
   %body{onload: "init()"}
 
     .left-column
-      / Audio player
-      %audio#cdg_audio
-        Sorry, your browser doesn't support HTML5 audio. Please upgrade to a recent version of Chrome for Firefox.
-
       / Video player
       #cdg_border
         %canvas#cdg_canvas{width: 288, height: 192}
           Sorry, your browser doesn't support HTML5 canvas. Please upgrade to a recent version of Chrome for Firefox.
 
+      / Audio player
+      %audio#cdg_audio
+        Sorry, your browser doesn't support HTML5 audio. Please upgrade to a recent version of Chrome for Firefox.
+
       / Status bar (information about loading the graphics)
       #cdg_status
+
 
     .right-column
       %select#song-select{"data-placeholder" => "Choose a song..."}

@@ -105,7 +105,7 @@ get "/k/*" do
   if path = $paths[filename]
     send_file(path.to_s)
   else
-    # status 404
-    raise "Error: invalid file"
+    status 404
+    "Error: invalid file"
   end
 end
