@@ -44,5 +44,5 @@
 
         / All the songs
         - @songs.each do |song|
-          %option{value: "k/#{song.audiofile}:k/#{song.cdgfile}"}
+          %option{value: song.basename}
             = song.name

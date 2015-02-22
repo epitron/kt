@@ -5,7 +5,6 @@
 #######################################################################################################
 
 require 'sinatra'
-require 'sinatra/reloader' if development?
 require 'sinatra/xsendfile'
 require 'haml'
 require 'epitools' # for the "Path" class
@@ -14,8 +13,13 @@ require 'epitools' # for the "Path" class
 # Configuration
 #######################################################################################################
 
-set :server, :thin
-set :bind, '0.0.0.0'
+# if development?
+configure :development do
+  require 'sinatra/reloader'  # autoreload this file
+
+  set :server, :thin          # use the "thin" webserver
+  set :bind,   '0.0.0.0'      # listen on all addresses
+end
 
 configure :production do
   Sinatra::Xsendfile.replace_send_file! # replace Sinatra's send_file with x_send_file
@@ -69,36 +73,41 @@ end
 # Update the hash of filenames
 #
 def rescan_files!
-  time("rescan_files!") do
+  time("rescan files") do
     $paths = $song_directory.
                ls_r(true).       # List all the files (recursively)
                map { |path| [path.filename, path] if path.file? }. 
                compact.
                to_h
   end          
-  puts "===> #{$paths.size} files found"
+  puts "   ===> #{$paths.size} files found"
 end
 
 def all_songs
   # TODO: Only refresh the songlist if the directory changed
   rescan_files!
-  time("convert to songs") do
-    $paths.map { |name, path| Song.new(path.basename) if path.ext == "cdg" }. # convert paths to songs
-    compact. # remove "nil" entries from the array
-    sort_by { |song| song.name }
-  end
 
+  # Create Song objects for all the .cdg files
+  songs = $paths.map { |name, path| Song.new(path.basename) if path.ext == "cdg" }.compact
+  
+  songs.sort_by { |song| song.name } # return songs (sorted by their cleaned-up names)
 end
 
 #######################################################################################################
 # Routes
 #######################################################################################################
 
+#
+# Render the main page
+#
 get "/" do
   @songs = all_songs
   haml :index
 end
 
+#
+# Send an .mp3 or .cdg file to the client
+#
 get "/k/*" do
   filename = params["splat"].first
 

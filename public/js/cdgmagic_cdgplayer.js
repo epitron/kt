@@ -66,10 +66,8 @@ function set_file_prefix(dropdown_value)
     // Ignore this call if we weren't given a file name.
     if (dropdown_value == "") return;
 
-    files         = dropdown_value.split(":");
-    var audiofile = files[0];
-    var cdgfile   = files[1];
-
+    var audiofile = "k/" + dropdown_value + ".mp3"
+    var cdgfile   = "k/" + dropdown_value + ".cdg"
 
     // Construct the file paths.
     // var audio_file_prefix = file_url_prefixes.split(":", 2)[0];
