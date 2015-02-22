@@ -64,3 +64,4 @@
       %option{}
       - @songs.each do |song|
         %option{:value => "k/#{song.basename}:k/#{song.basename}"}= song.name
+    (#{@songs.size} songs)
