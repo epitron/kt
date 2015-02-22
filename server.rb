@@ -2,6 +2,12 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'haml'
 require 'epitools/path'
+require 'sinatra/xsendfile'
+
+configure :production do
+  Sinatra::Xsendfile.replace_send_file! # replace Sinatra's send_file with x_send_file
+  # set :xsf_header, 'X-Accel-Redirect'   # set x_send_file header (default: X-SendFile)
+end
 
 set :server, :thin
 set :bind, '0.0.0.0'
@@ -49,11 +55,12 @@ get "/k/*" do
   filename = params["splat"].first
 
   if path = $files[filename]
-    stream do |out|
-      path.each_chunk do |chunk|
-        out << chunk
-      end
-    end
+    # stream do |out|
+    #   path.each_chunk do |chunk|
+    #     out << chunk
+    #   end
+    # end
+    send_file(path)
   else
     status 404
   end
