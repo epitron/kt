@@ -24,8 +24,6 @@ class Song
       name = path.basename.dup
       name.gsub!(/^[A-Z]{2,5}\d{2,5}-\d{1,4} - /, '')
       name.gsub!(/ \[\w+\]$/, '')
-      name.gsub!(/ Wvocal /, ' ')
-
       name
     end
   end
