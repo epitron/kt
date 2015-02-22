@@ -1,67 +1,40 @@
 !!!
 %html
   %head
-    %title KARAOKE TIME
-    :css
-      body  { background-color:#eeeeee; font-family:arial,sans-serif; width:80%; margin-left:auto; margin-right:auto; }
-      .header_box  { background-color:#007777; text-align:center; font-size:24px; font-weight:bold; padding:0.25em;
-                     white-space:nowrap; border-color:#111111; border-style:solid; border-width:1px; }
-      .left_navigation           { height:100%; float:left; width:150px; background-color:#007777; text-align:center;
-                                   white-space:nowrap; border-color:#111111; border-style:solid; border-width:1px; }
-      .left_navigation a         { font-size:80%; color:#ffffff; font-weight:bold; display:block; padding:0.5em; margin:0.2em;
-                                   border-color:#005555; border-style:solid; border-width:2px; background-color:#009999; }
-      .left_navigation a:hover   { color:#ff8800; background-color:#333333; }
-      .left_navigation a:active  { color:#aaaaaa; }
-      .right_content  { clear:right; background-color:#dddddd; text-align:left; margin-left:152px; font-size:0.8em;
-                        padding:1em; color:#111111; border-color:#111111; border-style:solid; border-width:1px; }
-      .footer      { text-align:center; }
-      .footer img  { border:0em; }
+    %title Karaoke Time!
 
-    %link{rel: "stylesheet", type: "text/css", href: "css/chosen.css"}
+    %link{rel: "stylesheet", href: "css/application.css"}
+    %link{rel: "stylesheet", href: "css/chosen.css"}
 
-    %script{:src => "js/jquery-1.11.2.min.js"}
-    %script{:src => "js/chosen.jquery.js"}
+    %script{src: "js/jquery-1.11.2.min.js"}
+    %script{src: "js/chosen.jquery.js"}
+    %script{src: "js/cdgmagic_cdgdecoder_lowresource.js"}
+    %script{src: "js/cdgmagic_cdgplayer.js"}
 
-    %script{:src => "js/cdgmagic_cdgplayer.js"}
-    %script{:src => "js/cdgmagic_cdgdecoder_lowresource.js"}
-    
     :javascript
       function init()
       {
-          CDG_Player_init( "cdg_audio", "cdg_canvas", "cdg_border", "cdg_status" );
-          toggle_2x_mode();
-          $("#chosen-select").chosen({no_results_text: "Oops, nothing found!", search_contains: true}).change(function() {set_file_prefix(this.value);});
+          CDG_Player_init("cdg_audio", "cdg_canvas", "cdg_border", "cdg_status");
+
+          $("#chosen-select").
+            chosen({search_contains: true}).
+            change(function() {set_file_prefix(this.value);});
       };
       
-      var zoom_mode = 0;
-      function toggle_2x_mode()
-      {
-          zoom_mode = (~zoom_mode) & 0x01;
-          var brdr = document.getElementById("cdg_border");
-          var cnvs = document.getElementById("cdg_canvas");
-          var audi = document.getElementById("cdg_audio");
-          brdr.style.width  = (zoom_mode) ? 648 + "px" : 324 + "px";
-          cnvs.style.width  = (zoom_mode) ? 576 + "px" : 288 + "px";
-          brdr.style.height = (zoom_mode) ? 432 + "px" : 216 + "px";
-          cnvs.style.height = (zoom_mode) ? 384 + "px" : 192 + "px";
-          cnvs.style.padding= (zoom_mode) ?  24 + "px" :  12 + "px";
-          audi.style.width  = (zoom_mode) ? 648 + "px" : 324 + "px";
-      };
-  
   %body{:onload => "init()"}
-    %audio#cdg_audio{:style => "width:324px"}
+
+    %audio#cdg_audio
       Sorry, your browser doesn't support HTML5 audio. Please upgrade to a recent version of Chrome for Firefox.
 
-    / #cdg_border{:ondblclick => "toggle_2x_mode();", :style => "width:324px; height:216px; background-color:#000000;"}
-    #cdg_border{:style => "width:324px; height:216px; background-color:#000000;"}
-      %canvas#cdg_canvas{:height => "192", :style => "padding:12px", :width => "288"}
+    #cdg_border
+      %canvas#cdg_canvas{width: 288, height: 192}
         Sorry, your browser doesn't support HTML5 canvas. Please upgrade to a recent version of Chrome for Firefox.
 
-    #cdg_status{:style => "width:320px; padding:2px; margin:4px; text-align:left; font-family:arial; font-size: 12px; color:#009900;"}
+    #cdg_status
 
-    / %select{:onchange => "set_file_prefix(this.value)", :size => "1", :style => "width:324px; margin:0px; color:#00dddd; background-color:#444444"; }
     %select#chosen-select{"data-placeholder" => "Choose a song..."}
       %option{}
       - @songs.each do |song|
-        %option{:value => "k/#{song.basename}:k/#{song.basename}"}= song.name
+        %option{value: "k/#{song.audiofile}:k/#{song.cdgfile}"}= song.name
+
     (#{@songs.size} songs)

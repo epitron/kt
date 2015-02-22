@@ -17,10 +17,11 @@
  */
 
 // HTML5 audio player element to play the Ogg/Vorbis or MP3 audio file.
-var audio_player = null;
-var vorbis_source_element = null;
-var layer3_source_element = null;
-var cdg_timer_id = null;
+var audio_player       = null;
+var mp3_source_element = null;
+var cdg_timer_id       = null;
+// var vorbis_source_element = null;
+
 
 // XML object and variable to get/contain the CDG file data.
 // NOTE: XMLHttpRequest is absolutely NOT designed to be used this way.
@@ -29,16 +30,16 @@ var cdg_timer_id = null;
 var xml_file_request = null;
 var cdg_file_data    = null;
 var status_div       = null;
-
-var my_cdgdecoder = null;
+var my_cdgdecoder    = null;
 
 // Text used for the XML object status display.
-var XML_STATUS_TEXT = new Array( "No operations pending.",
-                                 "Setting up file request...",
-                                 "Headers received...",
-                                 "Downloading graphics data...",
-                                 " " // Graphics download complete.
-                               );
+var XML_STATUS_TEXT = new Array( 
+                            "No operations pending.",
+                            "Setting up file request...",
+                            "Headers received...",
+                            "Downloading graphics data...",
+                            "" // Graphics download complete.
+                          );
 
 function CDG_Player_init( audio_id, canvas_id, border_id, status_id )
 {
@@ -60,13 +61,20 @@ function CDG_Player_init( audio_id, canvas_id, border_id, status_id )
     my_cdgdecoder = new CDGMagic_cdgdecoder(rgba_canvas, border_div);
 };
 
-function set_file_prefix(file_url_prefixes)
+function set_file_prefix(dropdown_value)
 {
     // Ignore this call if we weren't given a file name.
-    if (file_url_prefixes == "")  { return; };
+    if (dropdown_value == "") return;
+
+    files         = dropdown_value.split(":");
+    var audiofile = files[0];
+    var cdgfile   = files[1];
+
+
     // Construct the file paths.
-    var audio_file_prefix = file_url_prefixes.split(":", 2)[0];
-    var   cdg_file_prefix = file_url_prefixes.split(":", 2)[1];
+    // var audio_file_prefix = file_url_prefixes.split(":", 2)[0];
+    // var   cdg_file_prefix = file_url_prefixes.split(":", 2)[1];
+
     // Prepend the media files source directoy.
     // file_url_prefix = "media/" + file_url_prefix;
     // Stop, reset, and blank all the CD+G related stuff.
@@ -74,6 +82,7 @@ function set_file_prefix(file_url_prefixes)
     my_cdgdecoder.reset_cdg_state();
     my_cdgdecoder.redraw_canvas();
     cdg_file_data = null;
+
     // Destroy any old XML object... Seems to fix some memory issues... Find a better way to do this, perhaps?
     // Moved this to before the audio, so there's a good chance we'll get the CDG before the audio starts.
     // Probably should make smarter autoplay function that checks periodically and 
@@ -81,26 +90,29 @@ function set_file_prefix(file_url_prefixes)
     if ( xml_file_request )  { xml_file_request = null; };
     xml_file_request = new XMLHttpRequest();
     xml_file_request.onreadystatechange = xml_status_handler;
-    xml_file_request.open( "GET", cdg_file_prefix + ".cdg", true ); // Remove _gz for normal files.
+    xml_file_request.open( "GET", cdgfile, true ); // Remove _gz for normal files.
     xml_file_request.setRequestHeader( "Content-Type", "text/html" );
     xml_file_request.send();
+
     // Create new source elements if needed;
-    if (vorbis_source_element == null)
+    if (mp3_source_element == null)
     {
-        vorbis_source_element = document.createElement("source");  vorbis_source_element.type = "audio/ogg; codecs=\"vorbis\"";
-        layer3_source_element = document.createElement("source");  layer3_source_element.type = "audio/mpeg; codecs=\"mp3\"";
-    };
+        // vorbis_source_element = document.createElement("source");  vorbis_source_element.type = "audio/ogg; codecs=\"vorbis\"";
+        mp3_source_element = document.createElement("source");  mp3_source_element.type = "audio/mpeg; codecs=\"mp3\"";
+    }
+
     // Set the new source elements
-    vorbis_source_element.src = audio_file_prefix + ".ogg";
-    layer3_source_element.src = audio_file_prefix + ".mp3";
-    // Readd them (this should just update the new values, not duplicate) to the audio player element.
-    audio_player.appendChild(vorbis_source_element);
-    audio_player.appendChild(layer3_source_element);
+    // vorbis_source_element.src = audio_file_prefix + ".ogg";
+    mp3_source_element.src = audiofile;
+
+    // Read them (this should just update the new values, not duplicate) to the audio player element.
+    // audio_player.appendChild(vorbis_source_element);
+    audio_player.appendChild(mp3_source_element);
     // Reload the sources, and make sure controls are available.
     audio_player.load();
 	audio_player.controls = 1;
 	audio_player.autoplay = 1;
-};
+}
 
 // This handles the various events fired by the XMLHTTPObject used to download the CDG data.
 function xml_status_handler()
@@ -128,7 +140,7 @@ function xml_status_handler()
     };
     // Actually set the status text...
     status_div.innerHTML = status_text;
-};
+}
 
 function audio_error_dialog()
 {
@@ -140,8 +152,8 @@ function audio_error_dialog()
         var error_result = audio_player.error;
         if (audio_player.error.code)  { error_result = audio_player.error.code; };
         alert("The audio control fired an error event.\nCould be: " + error_result);
-    };
-};
+    }
+}
 
 // A little note about the timer silliness...
 // Most browsers only seem to update the stream position
@@ -152,7 +164,7 @@ function start_cdg_timer()
 {
     cdg_timer_id = setInterval(update_play_position, 20);
     /*cdg_timer_id = setTimeout(update_play_position, 20);*/
-};
+}
 
 function stop_cdg_timer()
 {
@@ -160,7 +172,7 @@ function stop_cdg_timer()
     /*clearTimeout(cdg_timer_id);*/
     //my_cdgdecoder.reset_cdg_state();
     //my_cdgdecoder.redraw_canvas();
-};
+}
 
 function update_play_position()
 {
@@ -185,8 +197,8 @@ function update_play_position()
         {
             my_cdgdecoder.decode_packs(cdg_file_data, position_to_play);
             my_cdgdecoder.redraw_canvas();
-        };
-    };
+        }
+    }
     // Time to go around again, if not using setInterval...
     /*cdg_timer_id = setTimeout(update_play_position, 20);*/
-};
+}

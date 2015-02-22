@@ -273,31 +273,37 @@ function CDGMagic_cdgdecoder( canvas_element, border_div )
             for (var x_pxl = 0; x_pxl < vis_width; ++x_pxl)
             {
                 curr_line_indices = local_vram[vram_loc++];              // Get the current line segment indices.
+             
                 curr_rgb = local_pal[ (curr_line_indices >> 000) & 0x0F ];  // Get the RGB value for pixel 0.
                 local_rgba[rgb_loc++] = (curr_rgb >> 020) & 0xFF;        // Set red value for pixel 0.
                 local_rgba[rgb_loc++] = (curr_rgb >> 010) & 0xFF;        // Set green value for pixel 0.
                 local_rgba[rgb_loc++] = (curr_rgb >> 000) & 0xFF;        // Set blue value for pixel 0.
                 local_rgba[rgb_loc++] = 0xFF;                            // Set alpha value (fully opaque) for pixel 0.
+             
                 curr_rgb = local_pal[ (curr_line_indices >> 004) & 0x0F ];  // Get the RGB value for pixel 1.             
                 local_rgba[rgb_loc++] = (curr_rgb >> 020) & 0xFF;        // Set red value for pixel 1.                 
                 local_rgba[rgb_loc++] = (curr_rgb >> 010) & 0xFF;        // Set green value for pixel 1.               
                 local_rgba[rgb_loc++] = (curr_rgb >> 000) & 0xFF;        // Set blue value for pixel 1.                
                 local_rgba[rgb_loc++] = 0xFF;                            // Set alpha value (fully opaque) for pixel 1.
+             
                 curr_rgb = local_pal[ (curr_line_indices >> 010) & 0x0F ];  // Get the RGB value for pixel 2.             
                 local_rgba[rgb_loc++] = (curr_rgb >> 020) & 0xFF;        // Set red value for pixel 2.                 
                 local_rgba[rgb_loc++] = (curr_rgb >> 010) & 0xFF;        // Set green value for pixel 2.               
                 local_rgba[rgb_loc++] = (curr_rgb >> 000) & 0xFF;        // Set blue value for pixel 2.                
                 local_rgba[rgb_loc++] = 0xFF;                            // Set alpha value (fully opaque) for pixel 2.
+             
                 curr_rgb = local_pal[ (curr_line_indices >> 014) & 0x0F ];  // Get the RGB value for pixel 3.             
                 local_rgba[rgb_loc++] = (curr_rgb >> 020) & 0xFF;        // Set red value for pixel 3.                 
                 local_rgba[rgb_loc++] = (curr_rgb >> 010) & 0xFF;        // Set green value for pixel 3.               
                 local_rgba[rgb_loc++] = (curr_rgb >> 000) & 0xFF;        // Set blue value for pixel 3.                
                 local_rgba[rgb_loc++] = 0xFF;                            // Set alpha value (fully opaque) for pixel 3.
+             
                 curr_rgb = local_pal[ (curr_line_indices >> 020) & 0x0F ];  // Get the RGB value for pixel 4.             
                 local_rgba[rgb_loc++] = (curr_rgb >> 020) & 0xFF;        // Set red value for pixel 4.                 
                 local_rgba[rgb_loc++] = (curr_rgb >> 010) & 0xFF;        // Set green value for pixel 4.               
                 local_rgba[rgb_loc++] = (curr_rgb >> 000) & 0xFF;        // Set blue value for pixel 4.                
                 local_rgba[rgb_loc++] = 0xFF;                            // Set alpha value (fully opaque) for pixel 4.
+             
                 curr_rgb = local_pal[ (curr_line_indices >> 024) & 0x0F ];  // Get the RGB value for pixel 5.             
                 local_rgba[rgb_loc++] = (curr_rgb >> 020) & 0xFF;        // Set red value for pixel 5.                 
                 local_rgba[rgb_loc++] = (curr_rgb >> 010) & 0xFF;        // Set green value for pixel 5.               
