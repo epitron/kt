@@ -3,6 +3,20 @@ body {
   font-family: arial,sans-serif; 
 }
 
+
+/* Columns */
+.left-column, .right-column {
+  float: left;
+  width: auto;
+}
+
+.right-column {
+  padding-left: 1em;
+}
+
+
+
+/* Player */
 #cdg_border {
   width: 648px; 
   height: 432px; 
@@ -29,11 +43,36 @@ body {
   color: green;
 }
 
-.left-column, .right-column {
-  float: left;
-  width: auto;
+#song-title {
+  font-size: 30px;
 }
 
-.right-column {
-  margin-left: 1em;
+
+/* Search */
+#search-field {
+  font-size: 18px;
+  margin-bottom: 1em;
 }
+
+ul#search-list {
+  background-color: white;
+  padding: 5px;
+  margin: 0px;
+  width: auto;
+  height: auto;
+}
+
+#search-list li {
+  list-style: none;
+}
+#search-list li.playing {
+  background-color: green;
+  color: yellow;
+}
+
+#search-list li:hover {
+  cursor: pointer;
+  color: white;
+  background-color: blue;
+}
+

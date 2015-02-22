@@ -7,20 +7,45 @@
     %link{rel: "stylesheet", href: "css/chosen.css"}
 
     %script{src: "js/jquery-1.11.2.min.js"}
-    %script{src: "js/chosen.jquery.js"}
+    %script{src: "js/jquery.fastLiveFilter.js"}
+
     %script{src: "js/cdgmagic_cdgdecoder_lowresource.js"}
     %script{src: "js/cdgmagic_cdgplayer.js"}
 
     :javascript
+
       function init()
       {
+          // Initialize the CDG player
           CDG_Player_init("cdg_audio", "cdg_canvas", "cdg_border", "cdg_status");
 
-          $("#song-select").
-            chosen({search_contains: true}).
-            change(function() {set_file_prefix(this.value);});
+          // Setup the filter-as-you-type search plugin
+          $('#search-field').fastLiveFilter('#search-list', {callback: function(total) { $("#total").text(total); }});
+
+          // The previously clicked song
+          last_playing = null;
+
+          // Click a song
+          $('#search-list li').click(function() { 
+            var elem = $(this);
+
+            // Un-highlight the previously playing song
+            if (last_playing !== null)
+              last_playing.removeClass("playing");
+
+            // Highlight the currently playing song
+            elem.addClass("playing");
+            last_playing = elem;
+
+            // Load up the CDG/MP3 in the player
+            play_song(elem.data("basename"));
+
+            // Update the song title
+            $("#song-title").text(elem.text());
+          });
       };
       
+
   %body{onload: "init()"}
 
     .left-column
@@ -36,13 +61,17 @@
       / Status bar (information about loading the graphics)
       #cdg_status
 
+      / Title of the currently playing song
+      #song-title
 
     .right-column
-      %select#song-select{"data-placeholder" => "Choose a song... (#{@songs.size} total)"}
-        / Blank option
-        %option
+      %input#search-field
 
+      %span#total
+      songs
+
+      %ul#search-list{style: "overflow: auto; height: 600px;"}
         / All the songs
         - @songs.each do |song|
-          %option{value: song.basename}
+          %li{"data-basename" => song.basename}
             = song.name

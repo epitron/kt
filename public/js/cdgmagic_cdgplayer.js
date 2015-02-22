@@ -61,13 +61,13 @@ function CDG_Player_init( audio_id, canvas_id, border_id, status_id )
     my_cdgdecoder = new CDGMagic_cdgdecoder(rgba_canvas, border_div);
 };
 
-function set_file_prefix(dropdown_value)
+function play_song(basename)
 {
     // Ignore this call if we weren't given a file name.
-    if (dropdown_value == "") return;
+    if (basename == "") return;
 
-    var audiofile = "k/" + dropdown_value + ".mp3"
-    var cdgfile   = "k/" + dropdown_value + ".cdg"
+    var audiofile = "k/" + basename + ".mp3"
+    var cdgfile   = "k/" + basename + ".cdg"
 
     // Construct the file paths.
     // var audio_file_prefix = file_url_prefixes.split(":", 2)[0];
