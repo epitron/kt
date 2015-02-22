@@ -1,11 +1,15 @@
 # TODOs:
 
-* "Refresh" button updates directory listings
+## Pending:
+
+* Queue/browser interface
 * Group songs by subdirectory
-* Search/Queue interface
 * Ratings
-* Deal with duplicates
-* Synchronized sessions between two devices
+* Duplicate titles (add a suffix?)
+* Synchronize a karaoke sessions between multiple devices
 * Fix mobile bugs
-  - autostart song
-* Let users copy/paste a link to a specific song
+  - song doesn't autostart on android
+* Update URL with current song, so users can paste links to each other
+
+## Done:
+* "Refresh" updates directory listings

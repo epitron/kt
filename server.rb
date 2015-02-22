@@ -19,14 +19,13 @@ set :bind, '0.0.0.0'
 
 configure :production do
   Sinatra::Xsendfile.replace_send_file! # replace Sinatra's send_file with x_send_file
-  # set :xsf_header, 'X-Accel-Redirect'   # set x_send_file header (default: X-SendFile)
 end
 
 #######################################################################################################
 # Global variables
 #######################################################################################################
 
-$song_directory = Path["~/ktorr"] # Where all the songs come from
+$song_directory = Path["~/ktorr/Sunfly Decades Karaoke 70\`s - KaraokeRG"] # Where all the songs come from
 $paths          = {}              # A hash of {filename => path}s
 
 #######################################################################################################
@@ -106,6 +105,7 @@ get "/k/*" do
   if path = $paths[filename]
     send_file(path.to_s)
   else
-    status 404
+    # status 404
+    raise "Error: invalid file"
   end
 end

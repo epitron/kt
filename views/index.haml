@@ -16,25 +16,34 @@
       {
           CDG_Player_init("cdg_audio", "cdg_canvas", "cdg_border", "cdg_status");
 
-          $("#chosen-select").
+          $("#song-select").
             chosen({search_contains: true}).
             change(function() {set_file_prefix(this.value);});
       };
       
-  %body{:onload => "init()"}
+  %body{onload: "init()"}
 
-    %audio#cdg_audio
-      Sorry, your browser doesn't support HTML5 audio. Please upgrade to a recent version of Chrome for Firefox.
+    .left-column
+      / Audio player
+      %audio#cdg_audio
+        Sorry, your browser doesn't support HTML5 audio. Please upgrade to a recent version of Chrome for Firefox.
 
-    #cdg_border
-      %canvas#cdg_canvas{width: 288, height: 192}
-        Sorry, your browser doesn't support HTML5 canvas. Please upgrade to a recent version of Chrome for Firefox.
+      / Video player
+      #cdg_border
+        %canvas#cdg_canvas{width: 288, height: 192}
+          Sorry, your browser doesn't support HTML5 canvas. Please upgrade to a recent version of Chrome for Firefox.
 
-    #cdg_status
+      / Status bar (information about loading the graphics)
+      #cdg_status
 
-    %select#chosen-select{"data-placeholder" => "Choose a song..."}
-      %option{}
-      - @songs.each do |song|
-        %option{value: "k/#{song.audiofile}:k/#{song.cdgfile}"}= song.name
+    .right-column
+      %select#song-select{"data-placeholder" => "Choose a song..."}
+        / Blank option
+        %option
 
-    (#{@songs.size} songs)
+        / All the songs
+        - @songs.each do |song|
+          %option{value: "k/#{song.audiofile}:k/#{song.cdgfile}"}
+            = song.name
+
+      (#{@songs.size} songs)
