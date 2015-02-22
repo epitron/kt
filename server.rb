@@ -22,7 +22,7 @@ class Song
   def name
     @name ||= begin
       name = path.basename.dup
-      name.gsub!(/^[A-Z]{2,5}\d{2,5}-\d{1,4} - /, '')
+      name.gsub!(/^[A-Z]{2,5}([\d-]{2,15}) - /, '')
       name.gsub!(/ \[\w+\]$/, '')
       name
     end
