@@ -25,7 +25,7 @@ end
 # Global variables
 #######################################################################################################
 
-$song_directory = Path["~/ktorr/Sunfly Decades Karaoke 70\`s - KaraokeRG"] # Where all the songs come from
+$song_directory = Path["~/karaoke"] # Where all the songs come from
 $paths          = {}              # A hash of {filename => path}s
 
 #######################################################################################################
