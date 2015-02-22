@@ -29,8 +29,8 @@ end
 # Global variables
 #######################################################################################################
 
-$song_directory = Path["~/karaoke"] # Where all the songs come from
-$paths          = {}                # A hash of {filename => path}s
+$song_directory = Path[ ENV["KARAOKE"] || "~/karaoke" ] # Where all the songs come from
+$paths          = {}                                    # A hash of {filename => path}s
 
 #######################################################################################################
 # "Models" :)
