@@ -7,27 +7,47 @@ set :server, :thin
 set :bind, '0.0.0.0'
 
 $songroot = Path["~/ktorr"]
-$songs = {} # filename => fullpath mapping
+$files = {} # filename => fullpath mapping
+
+Song = Struct.new(:path)
+
+class Song
+
+  def name
+    @name ||= begin
+      name = path.basename.dup
+      name.gsub!(/[A-Z]{3}\d{4,5}-\d{1,3} - /, '')
+      name.gsub!(/ \[\w+\]$/, '')
+
+      name
+    end
+  end
+
+  def basename
+    path.basename
+  end
+
+end
 
 def rescan
-  $songs = $songroot.ls_r(true).select {|song| song.file? }.map { |song| [song.filename, song] }.to_h
-  puts "===> #{$songs.size} songs found"
+  $files = $songroot.ls_r(true).map { |path| [path.filename, path] if path.file? }.compact.to_h
+  puts "===> #{$files.size} songs found"
 end
 
 def all_songs
   rescan
-  $songs.select { |k,v| k[/\.cdg$/] }.map { |k,v| v.basename }
+  $files.map { |name, path| Song.new(path) if path.ext == "cdg" }.compact.sort_by(&:name)
 end
 
 get "/" do
-  @song_names = all_songs
+  @songs = all_songs
   haml :index
 end
 
 get "/k/*" do
   filename = params["splat"].first
 
-  if path = $songs[filename]
+  if path = $files[filename]
     stream do |out|
       path.each_chunk do |chunk|
         out << chunk

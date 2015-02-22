@@ -30,7 +30,7 @@
       {
           CDG_Player_init( "cdg_audio", "cdg_canvas", "cdg_border", "cdg_status" );
           toggle_2x_mode();
-          $("#chosen-select").chosen({no_results_text: "Oops, nothing found!"}).change(function() {set_file_prefix(this.value);});
+          $("#chosen-select").chosen({no_results_text: "Oops, nothing found!", search_contains: true}).change(function() {set_file_prefix(this.value);});
       };
       
       var zoom_mode = 0;
@@ -50,22 +50,17 @@
   
   %body{:onload => "init()"}
     %audio#cdg_audio{:style => "width:324px"}
-      To use the JavaScript Subcode Graphics Player,
-      %br>/
-      you must use an HTML5 audio/canvas compatible browser. [audio]
+      Sorry, your browser doesn't support HTML5 audio. Please upgrade to a recent version of Chrome for Firefox.
 
     / #cdg_border{:ondblclick => "toggle_2x_mode();", :style => "width:324px; height:216px; background-color:#000000;"}
     #cdg_border{:style => "width:324px; height:216px; background-color:#000000;"}
       %canvas#cdg_canvas{:height => "192", :style => "padding:12px", :width => "288"}
-        / style="image-rendering: optimizeSpeed"
-        To use the JavaScript Subcode Graphics Player,
-        %br>/
-        you must use an HTML5 audio/canvas compatible browser. [canvas]
+        Sorry, your browser doesn't support HTML5 canvas. Please upgrade to a recent version of Chrome for Firefox.
 
     #cdg_status{:style => "width:320px; padding:2px; margin:4px; text-align:left; font-family:arial; font-size: 12px; color:#00dddd; background-color:#444444"}
 
     / %select{:onchange => "set_file_prefix(this.value)", :size => "1", :style => "width:324px; margin:0px; color:#00dddd; background-color:#444444"; }
     %select#chosen-select{"data-placeholder" => "Choose a song..."}
       %option{}
-      - @song_names.each do |song_name|
-        %option{:value => "k/#{song_name}:k/#{song_name}"}= song_name
+      - @songs.each do |song|
+        %option{:value => "k/#{song.basename}:k/#{song.basename}"}= song.name
