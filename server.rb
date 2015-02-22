@@ -60,7 +60,7 @@ get "/k/*" do
     #     out << chunk
     #   end
     # end
-    send_file(path)
+    send_file(path.to_s)
   else
     status 404
   end

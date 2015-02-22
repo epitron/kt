@@ -1,1 +1,1 @@
-ruby server.rb
+bundle exec ruby server.rb
