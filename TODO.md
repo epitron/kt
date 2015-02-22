@@ -8,3 +8,4 @@
 * Synchronized sessions between two devices
 * Fix mobile bugs
   - autostart song
+* Let users copy/paste a link to a specific song
