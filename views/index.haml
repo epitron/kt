@@ -4,7 +4,6 @@
     %title Karaoke Time!
 
     %link{rel: "stylesheet", href: "css/application.css"}
-    %link{rel: "stylesheet", href: "css/chosen.css"}
 
     %script{src: "js/jquery-1.11.2.min.js"}
     %script{src: "js/jquery.fastLiveFilter.js"}
@@ -43,6 +42,86 @@
             // Update the song title
             $("#song-title").text(elem.text());
           });
+
+          var search_field = $('#search-field');
+
+          $('body').keydown(function(e) {
+            if (!search_field.is(":focus")) {
+              search_field.focus();
+            }
+          });
+
+          selected = null;
+
+          function results() {
+            return $("#search-list li:visible");
+          }
+
+          function select_next() {
+            if (selected && selected.is(":visible")) {
+              var n = selected.next(":visible");
+              if (n.length && n.length > 0) {
+                selected.removeClass("selected");
+                n.addClass("selected");
+                selected = n;
+              }
+            } else {
+              selected = results().first();
+              selected.addClass("selected");
+            }
+          }
+
+          function select_prev() {
+            if (selected && selected.is(":visible")) {
+              var n = selected.prev(":visible");
+              if (n.length && n.length > 0) {
+                selected.removeClass("selected");
+                n.addClass("selected");
+                selected = n;
+              }
+            } else {
+              selected = results().first();
+              selected.addClass("selected");
+            }
+          }
+
+          search_field.keydown(function(e) {
+            // console.log(e, event.keyIdentifier);
+
+            // arrow:
+            // 
+            switch (event.keyIdentifier) {
+              case "Down":
+                e.preventDefault();
+                console.log("down");
+                select_next();
+                break;
+              case "Up":
+                e.preventDefault();
+                console.log("up");
+                select_prev();
+                break;
+              case "Enter":
+                e.preventDefault();
+                console.log("enter");
+                if (selected) {
+                  selected.click();
+                  selected = null;
+                }
+                break;
+              case "U+001B":
+                // ESC
+                e.preventDefault();
+                console.log("esc");
+                search_field.val('');
+                break;
+              default:
+                return; // Quit when this doesn't handle the key event.
+            }
+
+          });
+
+
       };
       
 

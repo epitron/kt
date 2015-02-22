@@ -118,3 +118,7 @@ get "/k/*" do
     "Error: invalid file"
   end
 end
+
+get '/test' do
+  haml :test
+end

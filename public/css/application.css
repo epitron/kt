@@ -7,13 +7,15 @@ body {
 /* Columns */
 .left-column, .right-column {
   float: left;
-  width: auto;
+}
+
+.left-column {
+  width: 660px;
 }
 
 .right-column {
-  padding-left: 1em;
+  width: auto;
 }
-
 
 
 /* Player */
@@ -65,14 +67,23 @@ ul#search-list {
 #search-list li {
   list-style: none;
 }
-#search-list li.playing {
-  background-color: green;
-  color: yellow;
+
+#search-list li:nth-child(odd) {
+  background-color: #f8f8f8;
 }
 
 #search-list li:hover {
   cursor: pointer;
-  color: white;
+  background-color: #F8FFCD;
+}
+
+#search-list li.playing {
   background-color: blue;
+  color: yellow;
+}
+
+#search-list li.selected {
+  background-color: red;
+  color: white;
 }
 
