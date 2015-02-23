@@ -115,7 +115,7 @@ get "/k/*" do
     send_file(path.to_s)
   else
     status 404
-    "Error: invalid file"
+    "Error: couldn't locate #{filename.inspect}\n"
   end
 end
 
@@ -132,3 +132,6 @@ get '/songs.json' do
 
   results.to_json
 end
+
+
+rescan_files!
