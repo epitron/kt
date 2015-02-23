@@ -154,6 +154,6 @@ get '/songs.json' do
 end
 
 get "/encoding" do
-  {ext: Encoding.default_external, str: "hello".encoding, path: Path["/etc/passwd"].filename.encoding}.inspect
+  {ext: Encoding.default_external, int: Encoding.default_internal, str: "hello".encoding, path: Path["/etc/passwd"].filename.encoding}.inspect
 end
   
