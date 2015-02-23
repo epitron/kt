@@ -8,6 +8,7 @@ require 'sinatra'
 require 'sinatra/xsendfile'
 require 'haml'
 require 'epitools' # for the "Path" class
+require 'logger'
 
 #######################################################################################################
 # Configuration
@@ -23,6 +24,22 @@ end
 
 configure :production do
   Sinatra::Xsendfile.replace_send_file! # replace Sinatra's send_file with x_send_file
+end
+
+Logger.class_eval { alias :write :'<<' }
+log_dir = Path[__FILE__].parent/"log"
+log_dir.mkdir unless log_dir.dir?
+
+access_logger     = Logger.new(log_dir/"access.log")
+error_logger      = (log_dir/"error.log").open("a+")
+error_logger.sync = true
+
+configure do
+  use Rack::CommonLogger, access_logger
+end
+
+before do
+  env["rack.errors"] = error_logger
 end
 
 #######################################################################################################
