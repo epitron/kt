@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: UTF-8
 
 #######################################################################################################
 # Requires
@@ -149,6 +150,5 @@ get '/songs.json' do
 
   results.to_json
 end
-
 
 rescan_files!
