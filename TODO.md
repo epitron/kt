@@ -13,6 +13,12 @@
   - song doesn't autostart on android
 * Update URL with current song, so users can paste links to each other
 * Keep the search field focussed (or use "/" to focus it)
-
+* Smooth image scaler
+  - https://en.wikipedia.org/wiki/Image_scaling#Pixel_art_scaling_algorithms
+  - https://github.com/yjh0502/hqx-js
+  - https://github.com/LeoDutra/js-xBRZ
+  - http://sourceforge.net/projects/xbrz/
+  - http://www.zachstronaut.com/posts/2012/08/17/webgl-fake-crt-html5.html
+  
 ## Done:
 * "Refresh" updates directory listings
