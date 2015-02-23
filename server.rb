@@ -132,7 +132,7 @@ get "/k/*" do
     send_file(path.to_s)
   else
     status 404
-    "Error: invalid file"
+    "Error: couldn't locate #{filename.inspect}\n"
   end
 end
 
@@ -149,8 +149,3 @@ get '/songs.json' do
 
   results.to_json
 end
-
-get "/encoding" do
-  {ext: Encoding.default_external, str: "hello".encoding, path: Path["/etc/passwd"].filename.encoding}.inspect
-end
-  
