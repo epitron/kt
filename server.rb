@@ -119,6 +119,16 @@ get "/k/*" do
   end
 end
 
-get '/test' do
-  haml :test
+get '/songs.json' do
+  content_type :json
+
+  results = all_songs.map do |song|
+    {
+      name: song.name,
+      cdg: "/k/#{song.basename}.cdg",
+      mp3: "/k/#{song.basename}.mp3"
+    }
+  end
+
+  results.to_json
 end
