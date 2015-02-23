@@ -6,6 +6,12 @@
 * Queue/browser interface
 * Group songs by subdirectory
 * Ratings
+  - simple version: a button below the song title
+  - song rating vs. music production rating
+  - flag as shitty
+* Database
+  - consistency through never renaming files, or xattr id's (SHA1's?)
+  - ratings, fixed titles, collection, producer (sunfly, etc.)
 * Duplicate titles (add a suffix?)
 * Synchronize karaoke sessions between multiple devices (for a singer display and an audience display)
 * Fullscreen
