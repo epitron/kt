@@ -115,6 +115,8 @@ end
 # Routes
 #######################################################################################################
 
+rescan_files!
+
 #
 # Render the main page
 #
@@ -151,4 +153,7 @@ get '/songs.json' do
   results.to_json
 end
 
-rescan_files!
+get "/encoding" do
+  {ext: Encoding.default_external, str: "hello".encoding, path: Path["/etc/passwd"].filename.encoding}.inspect
+end
+  
