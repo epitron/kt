@@ -6,7 +6,8 @@
 * Group songs by subdirectory
 * Ratings
 * Duplicate titles (add a suffix?)
-* Synchronize a karaoke sessions between multiple devices
+* Synchronize karaoke sessions between multiple devices (for a singer display and an audience display)
+* Fullscreen
 * Fix mobile bugs
   - song doesn't autostart on android
 * Update URL with current song, so users can paste links to each other
