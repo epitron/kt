@@ -15,7 +15,6 @@ require 'logger'
 # Configuration
 #######################################################################################################
 
-# if development?
 configure :development do
   require 'sinatra/reloader'  # autoreload this file
 
@@ -87,6 +86,15 @@ end
 # Utility functions
 #######################################################################################################
 
+helpers do
+  #
+  # Escape characters that mess up HTML (<, >, etc.)
+  #
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
+end
+
 #
 # Update the hash of filenames
 #
@@ -102,10 +110,10 @@ def rescan_files!
 end
 
 def all_songs
-  # TODO: Only refresh the songlist if the directory changed
+  # TODO: Only refresh the songlist if the directory has changed
   rescan_files!
 
-  # Create Song objects for all the .cdg files
+  # Instantiate "Song" objects from the .cdg files
   songs = $paths.map { |name, path| Song.new(path.basename) if path.ext == "cdg" }.compact
   
   songs.sort_by { |song| song.name } # return songs (sorted by their cleaned-up names)
@@ -154,6 +162,14 @@ get '/songs.json' do
 end
 
 get "/encoding" do
-  {ext: Encoding.default_external, int: Encoding.default_internal, str: "hello".encoding, path: Path["/etc/passwd"].filename.encoding}.inspect
+  es = {
+    ext: Encoding.default_external,
+    int: Encoding.default_internal,
+    str: "hello".encoding,
+    path: Path["/etc/passwd"].path.encoding,
+    sep: File::SEPARATOR.encoding
+  }
+
+  h es.inspect
 end
   
