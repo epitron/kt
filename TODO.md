@@ -2,6 +2,7 @@
 
 ## Pending:
 
+* Turn search into a modal that only pops up when you start typing, and disappears when you pick a song
 * Queue/browser interface
 * Group songs by subdirectory
 * Ratings
