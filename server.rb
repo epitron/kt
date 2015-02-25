@@ -66,9 +66,15 @@ class Song
   #
   def name
     @name ||= begin
-      basename.
+      name = basename.
         gsub(/^[A-Z]{2,5}([\d-]{2,15}) - /, '').
+        gsub('  ', ' - ').
+        gsub(/^\d\d - /, '').
         gsub(/ \[\w+\]$/, '')
+
+      name = name.titlecase if name.upcase == name
+
+      name
     end
   end
 
