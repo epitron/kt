@@ -11,7 +11,7 @@ class Song < ActiveRecord::Base
   end
 
   ##############################################################
-  
+
   def self.search(words, limit=100)
     words = [words].flatten
     result = limit(limit)
@@ -29,7 +29,7 @@ class Song < ActiveRecord::Base
     RAND_FUNC = "RAND()"
   end
 
-  def self.random(n=50)
+  def self.random(n=150)
     order(RAND_FUNC).take(n)
   end
 
