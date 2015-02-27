@@ -3,6 +3,10 @@
 ## Pending:
 
 * Turn search into a modal that only pops up when you start typing, and disappears when you pick a song
+* Song identifier
+  - Chop filename into pieces
+  - Run bloom filter over it to identify titles/artists (artists take priority)
+  - Put a SHA1 on the xattrs
 * Queue/browser interface
 * Group songs by subdirectory
 * Ratings
