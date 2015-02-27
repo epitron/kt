@@ -1,4 +1,4 @@
-Encoding.default_internal = Encoding.default_external = "utf-8"
+# This file is used by Rack-based servers to start the application.
 
-require './server'
-run Sinatra::Application
+require ::File.expand_path('../config/environment', __FILE__)
+run Rails.application
