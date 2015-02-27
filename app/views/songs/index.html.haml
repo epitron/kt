@@ -32,3 +32,5 @@
   %ul#search-list{style: "overflow: auto; height: 600px;"}
     / All the songs
     = render @songs
+
+  %p (<b>Total songs: #{Song.count}</b>)
