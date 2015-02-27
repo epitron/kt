@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.0'
+gem 'pry-rails'
+
 gem 'sqlite3'
 gem 'mysql2'
 
@@ -29,7 +31,6 @@ gem 'rails_config'
 group :development, :test do
   gem 'quiet_assets'
   gem 'best_errors'
-  gem 'pry-rails'
   # gem 'byebug'
   gem 'spring'
 end
