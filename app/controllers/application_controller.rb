@@ -3,14 +3,18 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def xsendfile(path, options)
-    # headers["Content-Transfer-Encoding"] = "binary"
-    # headers["Content-Type"] = options[:type] || "application/force-download"
-    # headers["Content-Disposition"] = "attachment; file=\"#{File.basename path}\""
+  def xsendfile(path, options={})
+    if Rails.env.development?
+      send_file(path)
+    else
+      # headers["Content-Transfer-Encoding"] = "binary"
+      # headers["Content-Type"] = options[:type] || "application/force-download"
+      # headers["Content-Disposition"] = "attachment; file=\"#{File.basename path}\""
 
-    headers["X-Sendfile"] = path
+      headers["X-Sendfile"] = path
 
-    render nothing: true
+      render nothing: true
+    end
   end
 
 end

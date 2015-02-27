@@ -1,3 +1,94 @@
 // Place all the styles related to the Songs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+body {
+  background-color: #eeeeee; 
+  font-family: arial,sans-serif; 
+}
+
+
+/* Columns */
+.left-column, .right-column {
+  float: left;
+}
+
+.left-column {
+  width: 660px;
+}
+
+.right-column {
+  width: auto;
+}
+
+
+/* Player */
+#cdg_border {
+  width: 648px; 
+  height: 432px; 
+  background-color: #000000;
+}
+
+#cdg_canvas {
+  width: 576px;
+  height: 384px;
+  padding: 24px;
+}
+
+#cdg_audio { 
+  width: 648px;
+}
+
+#cdg_status {
+  width: 320px;
+  padding: 2px;
+  margin: 4px;
+  text-align: left;
+  font-family: arial;
+  font-size: 12px;
+  color: green;
+}
+
+#song-title {
+  font-size: 30px;
+}
+
+
+/* Search */
+#search-field {
+  font-size: 18px;
+  margin-bottom: 1em;
+}
+
+ul#search-list {
+  background-color: white;
+  padding: 5px;
+  margin: 0px;
+  width: 640px;
+  height: auto;
+}
+
+#search-list li {
+  list-style: none;
+}
+
+#search-list li:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+
+#search-list li:hover {
+  cursor: pointer;
+  background-color: #F8FFCD;
+}
+
+#search-list li.playing {
+  background-color: blue;
+  color: yellow;
+}
+
+#search-list li.selected {
+  background-color: red;
+  color: white;
+}
+
