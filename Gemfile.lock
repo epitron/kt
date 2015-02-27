@@ -56,6 +56,7 @@ GEM
       execjs
     coffee-script-source (1.9.1)
     debug_inspector (0.0.2)
+    epitools (0.5.73)
     erubis (2.7.0)
     execjs (2.3.0)
     globalid (0.3.3)
@@ -109,6 +110,8 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.1)
       loofah (~> 2.0)
+    rails_config (0.4.2)
+      activesupport (>= 3.0)
     railties (4.2.0)
       actionpack (= 4.2.0)
       activesupport (= 4.2.0)
@@ -153,10 +156,12 @@ PLATFORMS
 DEPENDENCIES
   best_errors
   coffee-rails (~> 4.1.0)
+  epitools
   jbuilder (~> 2.0)
   jquery-rails
   pry-rails
   rails (= 4.2.0)
+  rails_config
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
