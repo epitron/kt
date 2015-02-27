@@ -23,15 +23,43 @@ class Song < ActiveRecord::Base
     result
   end
   
-  if Rails.env.development?
-    RAND_FUNC = "RANDOM()"
-  else
-    RAND_FUNC = "RAND()"
+  # if Rails.env.development?
+  #   RAND_FUNC = "RANDOM()"
+  # else
+  #   RAND_FUNC = "RAND()"
+  # end
+
+  # def self.random(n=150)
+  #   order(RAND_FUNC).take(n)
+  # end
+
+  def self.random(n=100)
+    return Song.all if Song.count < n
+    
+    max = Song.maximum(:id)
+
+    remaining = n
+
+    results = []
+    used_ids = Set.new
+
+    while remaining > 0
+      ids = []
+      (remaining*1.2).to_i.times do
+        r = rand(max)
+        ids << r unless used_ids.include? r
+      end
+
+      results += Song.where(id: ids)
+
+      remaining = n - results.size
+
+      used_ids.merge(ids)
+    end
+
+    results.take(n)
   end
 
-  def self.random(n=150)
-    order(RAND_FUNC).take(n)
-  end
 
   def clean_name
     name = basename.
