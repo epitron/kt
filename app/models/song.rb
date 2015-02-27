@@ -13,8 +13,14 @@ class Song < ActiveRecord::Base
     where("LOWER(name) LIKE LOWER(?)", q).limit(limit)
   end
   
+  if Rails.env.development?
+    RAND_FUNC = "RANDOM()"
+  else
+    RAND_FUNC = "RAND()"
+  end
+
   def self.random(n=50)
-    order("RANDOM()").take(n)
+    order(RAND_FUNC).take(n)
   end
 
   def clean_name
