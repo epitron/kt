@@ -3,9 +3,10 @@ $(document).ready ->
   # Initialize the CDG player
   CDG_Player_init 'cdg_audio', 'cdg_canvas', 'cdg_border', 'cdg_status'
 
+  search_field = $('#search-field')
 
   # Setup the filter-as-you-type search plugin
-  $('#search-field').on 'input', $.throttle 200, ->
+  search_field.on 'input', $.throttle 200, ->
     query = $(this).val()
 
     url = "/songs"
@@ -17,10 +18,11 @@ $(document).ready ->
       $("#search-list").html(data)
 
 
-  $("#clear-search").click ->
+  clear_search = ->
     search_field.val('')
     search_field.trigger('input')
 
+  $("#clear-search").click(clear_search)
 
   # The previously clicked song
   last_playing = null
@@ -40,11 +42,6 @@ $(document).ready ->
     $('#song-title').text elem.text()
     return
 
-  search_field = $('#search-field')
-
-  $('body').keydown (e) ->
-    if !search_field.is(':focus')
-      search_field.focus()
 
 
   ## Keyboard shortcuts
@@ -77,6 +74,13 @@ $(document).ready ->
   #     selected.addClass 'selected'
 
 
+  $('body').keydown (e) ->
+    if e.keyCode == 27
+      clear_search()
+
+    if !search_field.is(':focus')
+      search_field.focus()
+
   # search_field.keydown (e) ->
   #   # console.log(e, event.keyIdentifier);
   #   # arrow:
@@ -100,7 +104,7 @@ $(document).ready ->
   #       # ESC
   #       e.preventDefault()
   #       console.log 'esc'
-  #       search_field.val ''
+  #       clear_search()
   #     else
   #       return
   #     # Quit when this doesn't handle the key event.

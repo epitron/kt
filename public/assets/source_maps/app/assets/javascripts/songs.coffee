@@ -1,8 +1,55 @@
 $(document).ready ->
-  # Initialize the CDG player
 
-  results = ->
-    $ '#search-list li:visible'
+  # Initialize the CDG player
+  CDG_Player_init 'cdg_audio', 'cdg_canvas', 'cdg_border', 'cdg_status'
+
+  search_field = $('#search-field')
+
+  # Setup the filter-as-you-type search plugin
+  search_field.on 'input', $.throttle 200, ->
+    query = $(this).val()
+
+    url = "/songs"
+
+    if query.length > 0
+      url += "?search=#{query}"
+
+    $.get url, (data)->
+      $("#search-list").html(data)
+
+
+  clear_search = ->
+    search_field.val('')
+    search_field.trigger('input')
+
+  $("#clear-search").click(clear_search)
+
+  # The previously clicked song
+  last_playing = null
+
+  # Click a song
+  $('#search-list').on 'click', 'li', ->
+    elem = $(this)
+    # Un-highlight the previously playing song
+    if last_playing != null
+      last_playing.removeClass 'playing'
+    # Highlight the currently playing song
+    elem.addClass 'playing'
+    last_playing = elem
+    # Load up the CDG/MP3 in the player
+    play_song elem.data('basename')
+    # Update the song title
+    $('#song-title').text elem.text()
+    return
+
+
+
+  ## Keyboard shortcuts
+
+  # selected = null
+
+  # results = ->
+  #   $ '#search-list li:visible'
 
   # select_next = ->
   #   if selected and selected.is(':visible')
@@ -27,51 +74,12 @@ $(document).ready ->
   #     selected.addClass 'selected'
 
 
-  CDG_Player_init 'cdg_audio', 'cdg_canvas', 'cdg_border', 'cdg_status'
-
-
-  # Setup the filter-as-you-type search plugin
-  $('#search-field').on 'input', $.throttle 200, ->
-    query = $(this).val()
-
-    url = "/songs"
-
-    if query.length > 0
-      url += "?search=#{query}"
-
-    $.get url, (data)->
-      $("#search-list").html(data)
-
-  $("#clear-search").click ->
-    search_field.val('')
-    search_field.trigger('input')
-
-  # The previously clicked song
-  last_playing = null
-
-  # Click a song
-  $('#search-list').on 'click', 'li', ->
-    elem = $(this)
-    # Un-highlight the previously playing song
-    if last_playing != null
-      last_playing.removeClass 'playing'
-    # Highlight the currently playing song
-    elem.addClass 'playing'
-    last_playing = elem
-    # Load up the CDG/MP3 in the player
-    play_song elem.data('basename')
-    # Update the song title
-    $('#song-title').text elem.text()
-    return
-
-  search_field = $('#search-field')
-
   $('body').keydown (e) ->
+    if e.keyCode == 27
+      clear_search()
+
     if !search_field.is(':focus')
       search_field.focus()
-
-
-  selected = null
 
   # search_field.keydown (e) ->
   #   # console.log(e, event.keyIdentifier);
@@ -96,7 +104,7 @@ $(document).ready ->
   #       # ESC
   #       e.preventDefault()
   #       console.log 'esc'
-  #       search_field.val ''
+  #       clear_search()
   #     else
   #       return
   #     # Quit when this doesn't handle the key event.
