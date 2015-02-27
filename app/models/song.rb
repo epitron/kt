@@ -63,12 +63,12 @@ class Song < ActiveRecord::Base
 
   def clean_name
     name = basename.
-      gsub(/^[A-Z]{2,5}([\d-]{2,15}) - /, '').
+      gsub(/^[A-Z]{2,5}([\d-]{2,15})(\.| -) /i, '').
       gsub('  ', ' - ').
       gsub(/^\d\d - /, '').
       gsub(/ \[\w+\]$/, '')
 
-    name = name.titlecase if name.upcase == name
+    name = name.titlecase if name.upcase == name or name.downcase == name
 
     name
   end
