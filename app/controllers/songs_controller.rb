@@ -2,8 +2,9 @@ class SongsController < ApplicationController
 
   def index
     # @songs = Song.order(:name)
-    if query = params[:search]
-      @songs = Song.search(query)
+    if params[:search]
+      @query = params[:search].split(/\s+/)
+      @songs = Song.search(@query)
     else
       @songs = Song.random
     end
