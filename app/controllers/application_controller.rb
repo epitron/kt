@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def xsendfile(path, options={})
+    path = path.to_s
+
     if Rails.env.development?
       send_file(path)
     else
