@@ -8,6 +8,7 @@ gem 'haml'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails-source-maps'
 gem 'jquery-rails'
 # gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
@@ -26,6 +27,7 @@ gem 'rails_config'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'quiet_assets'
   gem 'best_errors'
   gem 'pry-rails'
   # gem 'byebug'

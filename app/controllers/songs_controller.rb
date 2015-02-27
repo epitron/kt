@@ -2,7 +2,15 @@ class SongsController < ApplicationController
 
   def index
     # @songs = Song.order(:name)
-    @songs = Song.order("RANDOM()").take(50)
+    if query = params[:search]
+      @songs = Song.search(query)
+    else
+      @songs = Song.random
+    end
+
+    if request.xhr?
+      render @songs
+    end
   end
 
   def show

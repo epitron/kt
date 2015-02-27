@@ -8,7 +8,13 @@ class Song < ActiveRecord::Base
 
   # validates :name, :basename, :dir, presence: true
 
-  def self.search
+  def self.search(query, limit=100)
+    q = "%#{query.split(/\s+/).join("%")}%"
+    where("LOWER(name) LIKE LOWER(?)", q).limit(limit)
+  end
+  
+  def self.random(n=50)
+    order("RANDOM()").take(n)
   end
 
   def clean_name
