@@ -1,16 +1,26 @@
 class Song < ActiveRecord::Base
 
+  validates :name, presence: true
+  validates :basename, presence: true
+  validates :dir, presence: true
+
   before_validation do
     if name.blank?
       self.name = clean_name
     end
   end
 
-  # validates :name, :basename, :dir, presence: true
+  ##############################################################
+  
+  def self.search(words, limit=100)
+    words = [words].flatten
+    result = limit(limit)
 
-  def self.search(query, limit=100)
-    q = "%#{query.split(/\s+/).join("%")}%"
-    where("LOWER(name) LIKE LOWER(?)", q).limit(limit)
+    words.each do |word|
+      result = result.where("LOWER(name) LIKE LOWER(?)", "%#{word}%")
+    end
+
+    result
   end
   
   if Rails.env.development?

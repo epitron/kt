@@ -14,8 +14,20 @@
   / Title of the currently playing song
   #song-title
 
+  / #thumb
+  /   %span.up
+  /     %i.fa.fa-thumbs-o-up.unclicked
+  /     %i.fa.fa-thumbs-up.clicked
+
+  /   %span.down
+  /     %i.fa.fa-thumbs-o-down.unclicked
+  /     %i.fa.fa-thumbs-down.clicked
+
+
 .right-column
   %input#search-field
+
+  %span#clear-search= fa_icon "times-circle"
 
   %ul#search-list{style: "overflow: auto; height: 600px;"}
     / All the songs
