@@ -2,6 +2,8 @@
 
 ## Pending:
 
+* Karaoke "Rooms"
+  - each room has a playlist
 * Turn search into a modal that only pops up when you start typing, and disappears when you pick a song
 * Song identifier
   - Chop filename into pieces

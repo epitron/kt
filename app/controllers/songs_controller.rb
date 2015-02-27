@@ -15,16 +15,15 @@ class SongsController < ApplicationController
   end
 
   def show
-  end
+    @song = Song.find params[:id]
 
-  def get
-    basename = params[:basename]
-    ext = params[:ext]
-
-    raise unless ext =~ /^(cdg|mp3)$/
-
-    if song = Song.find_by(basename: basename)
-      xsendfile(song.send(ext).to_s)
+    case params[:format]
+    when "mp3"
+      xsendfile(@song.mp3)
+    when "cdg"
+      xsendfile(@song.cdg)
+    else
+      render
     end
   end
 

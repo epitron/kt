@@ -6,7 +6,7 @@ class Song < ActiveRecord::Base
 
   before_validation do
     if name.blank?
-      self.name = clean_name
+      self.name = cleaned_name
     end
   end
 
@@ -23,16 +23,6 @@ class Song < ActiveRecord::Base
     result
   end
   
-  # if Rails.env.development?
-  #   RAND_FUNC = "RANDOM()"
-  # else
-  #   RAND_FUNC = "RAND()"
-  # end
-
-  # def self.random(n=150)
-  #   order(RAND_FUNC).take(n)
-  # end
-
   def self.random(n=100)
     return Song.all if Song.count < n
     
@@ -61,7 +51,23 @@ class Song < ActiveRecord::Base
   end
 
 
-  def clean_name
+  ##############################################################
+
+  def path
+    "#{dir} / #{basename}"
+  end
+
+  def cdg
+    Path[Settings.karaoke_dir]/dir/(basename+".cdg")
+  end
+
+  def mp3
+    Path[Settings.karaoke_dir]/dir/(basename+".mp3")
+  end
+
+  ##############################################################
+
+  def cleaned_name
     name = basename.
       gsub(/^[A-Z]{2,5}([\d-]{2,15}) - /, '').
       gsub('  ', ' - ').
@@ -71,14 +77,6 @@ class Song < ActiveRecord::Base
     name = name.titlecase if name.upcase == name
 
     name
-  end
-
-  def cdg
-    Path[Settings.karaoke_dir]/dir/(basename+".cdg")
-  end
-
-  def mp3
-    Path[Settings.karaoke_dir]/dir/(basename+".mp3")
   end
 
 end

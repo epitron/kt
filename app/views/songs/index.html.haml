@@ -12,7 +12,7 @@
   #cdg_status
 
   / Title of the currently playing song
-  #song-title
+  #song-title{title: ""}
 
   / #thumb
   /   %span.up
@@ -29,8 +29,8 @@
 
   %span#clear-search= fa_icon "times-circle"
 
+  / All the songs
   %ul#search-list{style: "overflow: auto; height: 600px;"}
-    / All the songs
     = render @songs
 
   %p (<b>Total songs: #{Song.count}</b>)

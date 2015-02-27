@@ -24,23 +24,28 @@ $(document).ready ->
 
   $("#clear-search").click(clear_search)
 
-  # The previously clicked song
-  last_playing = null
+  # # The previously clicked song
+  # last_playing = null
 
   # Click a song
   $('#search-list').on 'click', 'li', ->
     elem = $(this)
-    # Un-highlight the previously playing song
-    if last_playing != null
-      last_playing.removeClass 'playing'
-    # Highlight the currently playing song
-    elem.addClass 'playing'
-    last_playing = elem
+
+    # # Un-highlight the previously playing song
+    # if last_playing != null
+    #   last_playing.removeClass 'playing'
+
+    # # Highlight the currently playing song
+    # elem.addClass 'playing'
+    # last_playing = elem
+
+
     # Load up the CDG/MP3 in the player
-    play_song elem.data('basename')
+    id = elem.data('id')
+    play_song id
+
     # Update the song title
-    $('#song-title').text elem.text()
-    return
+    $('#song-title').text(elem.text()).attr("title", elem.data("title"))
 
 
 
