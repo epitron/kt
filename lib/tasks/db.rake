@@ -3,7 +3,7 @@ namespace :db do
   desc "Rescan the directory"
   task rescan: :environment do
     root = Path[Settings.karaoke_dir]
-    paths = root/"**/*.{cdg,mp3}"
+    paths = root/"**/*.{cdg}"
 
     paths.each do |path|
       p path
