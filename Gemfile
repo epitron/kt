@@ -11,7 +11,6 @@ gem 'mysql2'
 gem 'haml'
 
 gem 'coffee-rails', '~> 4.1.0'
-gem 'coffee-rails-source-maps'
 gem 'jquery-rails'
 # gem 'turbolinks'
 
@@ -31,6 +30,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'coffee-rails-source-maps'
   gem 'quiet_assets'
   gem 'best_errors'
   gem 'spring'
