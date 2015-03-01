@@ -3,7 +3,7 @@ class CreateSongs < ActiveRecord::Migration
     create_table :songs do |t|
       t.string :name, index: true
       t.string :basename, index: true
-      t.string :dir
+      t.string :dir, index: true
 
       t.timestamps null: false
     end

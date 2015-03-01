@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20150227040403) do
   end
 
   add_index "songs", ["basename"], name: "index_songs_on_basename"
+  add_index "songs", ["dir"], name: "index_songs_on_dir"
   add_index "songs", ["name"], name: "index_songs_on_name"
 
 end
