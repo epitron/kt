@@ -75,7 +75,7 @@ class Song < ActiveRecord::Base
       gsub(/^\d\d - /, '').
       gsub(/ \[\w+\]$/, '')
 
-    name = name.titlecase if name.upcase == name
+    name = name.titlecase if name.upcase == name or name.downcase == name
 
     name
   end
