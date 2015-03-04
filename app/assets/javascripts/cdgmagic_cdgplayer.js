@@ -61,7 +61,7 @@ function CDG_Player_init( audio_id, canvas_id, border_id, status_id )
     my_cdgdecoder = new CDGMagic_cdgdecoder(rgba_canvas, border_div);
 };
 
-function play_song(id)
+function CDG_play_song(id)
 {
     // Ignore this call if we weren't given a file name.
     if (!id) return;

@@ -3,6 +3,75 @@ $(document).ready ->
   # Initialize the CDG player
   CDG_Player_init 'cdg_audio', 'cdg_canvas', 'cdg_border', 'cdg_status'
 
+  #################################################
+  # Animated "Karaoke Time!" banner
+  #################################################
+
+  canvas   = $("#cdg_canvas")[0]
+  ctx      = canvas.getContext("2d")
+  ctx.font = "70px Comic Sans MS"
+
+  gradient_colors = [
+    {hex: "#FF0000", percent: 0},
+    {hex: "#FFFF00", percent: 0.125},
+    {hex: "#00FF00", percent: 0.375},
+    {hex: "#0000FF", percent: 0.625},
+    {hex: "#FF00FF", percent: 0.875},
+    {hex: "#FF0000", percent: 1}
+  ]
+
+  banner_visible = true
+
+  animate_banner = ->
+    ctx.fillStyle = "#000000"
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    gradient = ctx.createLinearGradient(canvas.width/2, 0, canvas.width/2, canvas.height)
+
+    for color in gradient_colors
+      gradient.addColorStop(color.percent, color.hex)
+      color.percent += 0.015
+      color.percent = 0 if color.percent > 1
+
+    ctx.fillStyle = gradient
+    ctx.fillText("Karaoke", 20, 70)
+    ctx.fillText("Time!", 50, 160)
+
+    window.setTimeout(animate_banner, 40) if banner_visible
+
+  animate_banner()
+
+
+  #################################################
+  # Play a song
+  #################################################
+
+  set_title = (title, alt)->
+    $('#song-title').text(title).attr("title", alt)
+
+  play = (id, title, alt)->
+    banner_visible = false
+
+    # history.pushState({}, '', "/songs/#{id}")
+    location.hash = id
+
+    if title?
+      set_title title, alt
+    else
+      $.getJSON "/songs/#{id}.json", (song)->
+        set_title song.name, "#{song.dir} / #{song.basename}"
+
+    # Load up the CDG/MP3 in the player
+    CDG_play_song(id)
+
+
+  if location.hash.match /^#\d+/
+    play(location.hash.slice(1))
+
+  #################################################
+  # Search
+  #################################################
+
   search_field = $('#search-field')
   search_field.focus()
 
@@ -18,7 +87,6 @@ $(document).ready ->
     $.get url, (data)->
       $("#search-list").html(data)
 
-
   clear_search = ->
     search_field.val('')
     search_field.trigger('input')
@@ -31,26 +99,29 @@ $(document).ready ->
   # Click a song
   $('#search-list').on 'click', 'li', ->
     elem = $(this)
-
     # # Un-highlight the previously playing song
     # if last_playing != null
     #   last_playing.removeClass 'playing'
 
     # # Highlight the currently playing song
-    # elem.addClass 'playing'
-    # last_playing = elem
+    $("#search-list li").removeClass 'playing'
+    elem.addClass 'playing'
 
-
-    # Load up the CDG/MP3 in the player
-    id = elem.data('id')
-    play_song id
+    play elem.attr('song_id'), elem.text(), elem.data("path")
 
     # Update the song title
-    $('#song-title').text(elem.text()).attr("title", elem.data("title"))
 
 
+  #################################################
+  # Keyboard stuff
+  #################################################
 
-  ## Keyboard shortcuts
+  $('body').keydown (e) ->
+    if e.keyCode == 27
+      clear_search()
+
+    if !search_field.is(':focus')
+      search_field.focus()
 
   # selected = null
 
@@ -78,14 +149,6 @@ $(document).ready ->
   #   else
   #     selected = results().first()
   #     selected.addClass 'selected'
-
-
-  $('body').keydown (e) ->
-    if e.keyCode == 27
-      clear_search()
-
-    if !search_field.is(':focus')
-      search_field.focus()
 
   # search_field.keydown (e) ->
   #   # console.log(e, event.keyIdentifier);
