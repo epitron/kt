@@ -4,6 +4,7 @@ $(document).ready ->
   CDG_Player_init 'cdg_audio', 'cdg_canvas', 'cdg_border', 'cdg_status'
 
   search_field = $('#search-field')
+  search_field.focus()
 
   # Setup the filter-as-you-type search plugin
   search_field.on 'input', $.throttle 200, ->
