@@ -47,7 +47,7 @@ class Song < ActiveRecord::Base
       used_ids.merge(ids)
     end
 
-    results.take(n)
+    results.take(n).shuffle
   end
 
 
