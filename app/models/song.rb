@@ -70,6 +70,7 @@ class Song < ActiveRecord::Base
   def cleaned_name
     name = basename.
       gsub(/^[A-Z]{2,5}([\d-]{2,15}) - /, '').
+      gsub(/^Karaoke Hits \d\d\d - \d\d /, '').
       gsub('  ', ' - ').
       gsub(/^\d\d - /, '').
       gsub(/ \[\w+\]$/, '')
