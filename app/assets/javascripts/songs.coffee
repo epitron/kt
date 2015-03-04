@@ -9,14 +9,15 @@ $(document).ready ->
 
   canvas   = $("#cdg_canvas")[0]
   ctx      = canvas.getContext("2d")
-  ctx.font = "70px Comic Sans MS"
+  ctx.font = "italic 70px Comic Sans MS"
 
   gradient_colors = [
     {hex: "#FF0000", percent: 0},
-    {hex: "#FFFF00", percent: 0.125},
-    {hex: "#00FF00", percent: 0.375},
-    {hex: "#0000FF", percent: 0.625},
-    {hex: "#FF00FF", percent: 0.875},
+    {hex: "#FFFF00", percent: 1/6},
+    {hex: "#00FF00", percent: 2/6},
+    {hex: "#2222FF", percent: 3/6},
+    {hex: "#00FFFF", percent: 4/6},
+    {hex: "#FF00FF", percent: 5/6},
     {hex: "#FF0000", percent: 1}
   ]
 
@@ -31,7 +32,7 @@ $(document).ready ->
     for color in gradient_colors
       gradient.addColorStop(color.percent, color.hex)
       color.percent += 0.015
-      color.percent = 0 if color.percent > 1
+      color.percent -= 1 if color.percent > 1
 
     ctx.fillStyle = gradient
     ctx.fillText("Karaoke", 20, 70)
