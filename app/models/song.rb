@@ -1,8 +1,8 @@
 class Song < ActiveRecord::Base
 
-  validates :name, presence: true
-  validates :basename, presence: true
-  validates :dir, presence: true
+  validates :name,      presence: true
+  validates :basename,  presence: true
+  validates :dir,       presence: true
 
   before_validation do
     if name.blank?
@@ -71,6 +71,7 @@ class Song < ActiveRecord::Base
     name = basename.
       gsub(/^[A-Z]{2,5}([\d-]{2,15})\.?( - )?/i, '').
       gsub(/^Karaoke Hits \d\d\d - \d\d /, '').
+      gsub(/^Track \d\d /, '')
       gsub('  ', ' - ').
       gsub(/^\d\d - /, '').
       gsub(/ \[\w+\]$/, '')
