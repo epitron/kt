@@ -44,7 +44,11 @@ end
 doc = Doc.parse(open("discogs_20150301_artists.xml"), :lazy => true)
 # p doc.artists.take(10000).map(&:data_quality).uniq
 
-doc.artists.each do |a|
-  p a.to_h
-end
+require 'pry'
+doc.artists.pry
+
+
+# doc.artists.each do |a|
+#   p a.to_h
+# end
 
