@@ -15,7 +15,6 @@ namespace :db do
         s.save
       end
     end
-
   end
 
   desc "Reimport everything"
