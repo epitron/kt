@@ -51,6 +51,34 @@ class Song < ActiveRecord::Base
   end
 
 
+  def self.normalize_dir(songs)
+    #
+    # Steps:
+    # 1. Remove known prefixes
+    # 2. Remove numeric prefixes that are common between songs
+    # 3. Split the records into artist/title
+    # 4. Detect which field is the artist
+    #
+
+    split_songs = songs.map { |s| s.basename.split(/ - /) }
+    require 'artist_detector'
+    $ad ||= ArtistDetector.new
+
+    detected = split_songs.map do |chunks|
+      chunks.map { |c| $ad[c] }
+    end
+    
+    split_songs.zip(detected).map {|s,d| s.zip(d) }
+  end
+
+  def self.clean_names!
+    Song.all.group_by(&:dir).each do |dir, songs|
+      p normalize_dir(songs)
+    end
+
+    nil
+  end
+
   ##############################################################
 
   def path
