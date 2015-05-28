@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20150528044158) do
   add_index "songs", ["basename"], name: "index_songs_on_basename"
   add_index "songs", ["dir"], name: "index_songs_on_dir"
   add_index "songs", ["name"], name: "index_songs_on_name"
+  add_index "songs", ["score"], name: "index_songs_on_score"
 
   create_table "thumbs", force: :cascade do |t|
     t.integer  "song_id"
@@ -34,6 +35,7 @@ ActiveRecord::Schema.define(version: 20150528044158) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "thumbs", ["session_id"], name: "index_thumbs_on_session_id"
   add_index "thumbs", ["song_id"], name: "index_thumbs_on_song_id"
 
 end
