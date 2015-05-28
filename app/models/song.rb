@@ -24,6 +24,10 @@ class Song < ActiveRecord::Base
     result
   end
   
+  def self.top(limit=100)
+    Song.all.where("score > 0").order("score desc").limit(limit)
+  end
+
   def self.random(n=100)
     return [] if n <= 0
     return Song.all.shuffle if Song.count < n
@@ -53,10 +57,6 @@ class Song < ActiveRecord::Base
   end
 
   ##############################################################
-
-  def self.top(limit=100)
-    Song.all.order("score desc").limit(limit)
-  end
 
   def html_score
     if score > 0
