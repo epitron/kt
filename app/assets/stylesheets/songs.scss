@@ -4,6 +4,7 @@ body {
   font-family: arial,sans-serif; 
 }
 
+.hidden { display: none; }
 
 /* Columns */
 
@@ -54,13 +55,30 @@ body {
   font-size: 30px;
 }
 
-#thumb {
+#thumbs {
   font-size: 1.5em;
+  .up, .down {
+    a {
+      text-decoration: none;
+      color: gray;
 
-  .up      { color: green; :hover { color: yellow; } }
-  .down    { color: red; :hover { color: yellow; } }
-  .clicked { display: none; }
+      :hover {
+        text-shadow: 0px 0px 30px rgba(120, 0, 255, 1);
+        color: black;
+      }
+    }
+    a.clicked {
+      color: rgb(255, 15, 255);
+      :hover {
+        color: #ffaaaa;
+      }
+    }
+
+  }
 }
+
+.red { color: red; }
+.green { color: green; }
 
 
 

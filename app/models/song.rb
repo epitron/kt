@@ -1,5 +1,7 @@
 class Song < ActiveRecord::Base
 
+  has_many :thumbs
+
   validates :name,      presence: true
   validates :basename,  presence: true
   validates :dir,       presence: true
@@ -9,7 +11,6 @@ class Song < ActiveRecord::Base
       self.name = cleaned_name
     end
   end
-
   ##############################################################
 
   def self.search(words, limit=100)
@@ -24,7 +25,7 @@ class Song < ActiveRecord::Base
   end
   
   def self.random(n=100)
-    return Song.all if Song.count < n
+    return Song.all.shuffle if Song.count < n
     
     max = Song.maximum(:id)
 
@@ -50,6 +51,34 @@ class Song < ActiveRecord::Base
     results.take(n).shuffle
   end
 
+  ##############################################################
+
+  def self.best
+    Song.all.order("score desc")
+  end
+
+  def html_score
+    if score > 0
+      "<span class='green'>+#{score}</span>"
+    elsif score < 0
+      "<span class='red'>#{score}</span>"
+    else
+      ""
+    end.html_safe
+  end
+
+  def compute_score
+    counts = thumbs.group(:up).count
+    (counts[true] || 0) - (counts[false] || 0)
+  end
+
+  def update_score!
+    update_attributes(score: compute_score)
+  end
+
+  def thumb_for(session_id)
+    thumbs.find_by(session_id: session_id)
+  end
 
   ##############################################################
 

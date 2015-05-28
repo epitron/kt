@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
       # headers["Content-Transfer-Encoding"] = "binary"
       # headers["Content-Type"] = options[:type] || "application/force-download"
       # headers["Content-Disposition"] = "attachment; file=\"#{File.basename path}\""
-
       headers["X-Sendfile"] = path
 
       render nothing: true

@@ -1,0 +1,11 @@
+- thumb = @song.thumb_for(session.id)
+
+%span.up
+  %a{href: "/songs/#{@song.id}/thumbs?direction=up", class: thumb.try(:up?) ? "clicked" : "" }
+    %i.fa.fa-thumbs-up
+
+%span.down
+  %a{href: "/songs/#{@song.id}/thumbs?direction=down", class: thumb.try(:down?) ? "clicked" : "" }
+    %i.fa.fa-thumbs-down
+
+= @song.html_score

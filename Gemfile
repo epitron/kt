@@ -34,7 +34,7 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'best_errors'
   gem 'spring'
-  gem 'thin'
+  gem 'puma'
   # gem 'byebug'
 end
 

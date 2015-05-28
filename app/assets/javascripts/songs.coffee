@@ -56,11 +56,15 @@ $(document).ready ->
     # history.pushState({}, '', "/songs/#{id}")
     location.hash = id
 
-    if title?
-      set_title title, alt
-    else
-      $.getJSON "/songs/#{id}.json", (song)->
-        set_title song.name, "#{song.dir} / #{song.basename}"
+    # if title?
+    #   set_title title, alt
+    # else
+    #   $.getJSON "/songs/#{id}.json", (song)->
+    #     set_title song.name, "#{song.dir} / #{song.basename}"
+
+    $.get "/songs/#{id}", (data)->
+      $("#caption").html(data)
+
 
     # Load up the CDG/MP3 in the player
     CDG_play_song(id)
@@ -76,7 +80,9 @@ $(document).ready ->
   search_field = $('#search-field')
   search_field.focus()
 
-  # Setup the filter-as-you-type search plugin
+  #
+  # Search-as-you-type
+  #
   search_field.on 'input', $.throttle 200, ->
     query = $(this).val()
 
@@ -88,16 +94,16 @@ $(document).ready ->
     $.get url, (data)->
       $("#search-list").html(data)
 
+
   clear_search = ->
     search_field.val('')
     search_field.trigger('input')
 
   $("#clear-search").click(clear_search)
 
-  # # The previously clicked song
-  # last_playing = null
-
-  # Click a song
+  #
+  # Pick a song from the results
+  #
   $('#search-list').on 'click', 'li', ->
     elem = $(this)
     # # Un-highlight the previously playing song
@@ -110,8 +116,22 @@ $(document).ready ->
 
     play elem.attr('song_id'), elem.text(), elem.data("path")
 
-    # Update the song title
 
+  #################################################
+  # Thumbs
+  #################################################
+
+  thumb_clicked = (e)-> 
+    e.preventDefault()
+    url = $(this).attr("href") 
+
+    console.log("thumb: #{url}")
+
+    $.get url, (data)->
+      $("#thumbs").html(data)
+
+  $(document).on 'click', '#thumbs .up a',   thumb_clicked
+  $(document).on 'click', '#thumbs .down a', thumb_clicked
 
   #################################################
   # Keyboard stuff

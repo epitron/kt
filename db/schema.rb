@@ -11,18 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227040403) do
+ActiveRecord::Schema.define(version: 20150528044158) do
 
   create_table "songs", force: :cascade do |t|
     t.string   "name"
     t.string   "basename"
     t.string   "dir"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "score",      default: 0, null: false
   end
 
   add_index "songs", ["basename"], name: "index_songs_on_basename"
   add_index "songs", ["dir"], name: "index_songs_on_dir"
   add_index "songs", ["name"], name: "index_songs_on_name"
+
+  create_table "thumbs", force: :cascade do |t|
+    t.integer  "song_id"
+    t.string   "session_id"
+    t.boolean  "up"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "thumbs", ["song_id"], name: "index_thumbs_on_song_id"
 
 end
