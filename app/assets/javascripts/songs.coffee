@@ -103,6 +103,8 @@ $(document).ready ->
       $("#search-list").html(data)
 
 
+  refresh_search = -> search_field.trigger('input')
+
   clear_search = ->
     search_field.val('')
     search_field.trigger('input')
@@ -113,12 +115,10 @@ $(document).ready ->
     search_field.val('')
     search_field.trigger('input')
 
-  $("#refresh").click ->
-    search_field.trigger('input')
+  $("#refresh").click refresh_search
   $("#sort").click ->
     top_songs = !top_songs
-    search_field.trigger('input')
-
+    refresh_search()
 
   #
   # Pick a song from the results
@@ -148,6 +148,7 @@ $(document).ready ->
 
     $.get url, (data)->
       $("#thumbs").html(data)
+      refresh_search()
 
   $(document).on 'click', '#thumbs .up a',   thumb_clicked
   $(document).on 'click', '#thumbs .down a', thumb_clicked
