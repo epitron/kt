@@ -18,9 +18,12 @@
   %input#search-field
 
   %span#buttons
-    %span#clear-search= fa_icon "times-circle"
-    %span#refresh= fa_icon "refresh"
-    %span#sort= fa_icon "sort-amount-desc"
+    %span#clear-search{title: "Clear search"}
+      = fa_icon "times-circle"
+    %span#refresh{title: "Reload list"}
+      = fa_icon "refresh"
+    %span#sort{title: "Sort by popularity"}
+      = fa_icon "sort-amount-desc"
 
   / All the songs
   %ul#search-list{style: "overflow: auto; height: 600px;"}
