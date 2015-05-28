@@ -80,18 +80,26 @@ $(document).ready ->
   search_field = $('#search-field')
   search_field.focus()
 
+  top_songs = false
+
   #
   # Search-as-you-type
   #
   search_field.on 'input', $.throttle 200, ->
+    console.log("top: #{top_songs}")
     query = $(this).val()
 
     url = "/songs"
 
-    if query.length > 0
-      url += "?search=#{query}"
+    options = {}
 
-    $.get url, (data)->
+    if query.length > 0
+      options.search = query
+
+    if top_songs
+      options.top = true
+
+    $.get url, options, (data)->
       $("#search-list").html(data)
 
 
@@ -100,6 +108,17 @@ $(document).ready ->
     search_field.trigger('input')
 
   $("#clear-search").click(clear_search)
+
+  clear_search = ->
+    search_field.val('')
+    search_field.trigger('input')
+
+  $("#refresh").click ->
+    search_field.trigger('input')
+  $("#sort").click ->
+    top_songs = !top_songs
+    search_field.trigger('input')
+
 
   #
   # Pick a song from the results

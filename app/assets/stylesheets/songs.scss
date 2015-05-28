@@ -89,9 +89,15 @@ body {
   margin-bottom: 1em;
 }
 
-#clear-search {
-  font-size: 1.2em;
+#buttons span {
+  margin-right: 0.3em;
+  margin-left: 0.3em;
   cursor: pointer;
+  font-size: 1.2em;
+
+  :hover {
+    color: #2222ff;
+  }
 }
 
 ul#search-list {

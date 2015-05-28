@@ -25,6 +25,7 @@ class Song < ActiveRecord::Base
   end
   
   def self.random(n=100)
+    return [] if n <= 0
     return Song.all.shuffle if Song.count < n
     
     max = Song.maximum(:id)
@@ -53,8 +54,8 @@ class Song < ActiveRecord::Base
 
   ##############################################################
 
-  def self.best
-    Song.all.order("score desc")
+  def self.top(limit=100)
+    Song.all.order("score desc").limit(limit)
   end
 
   def html_score

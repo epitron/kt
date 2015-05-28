@@ -1,12 +1,15 @@
 class SongsController < ApplicationController
 
   def index
-    # @songs = Song.order(:name)
+    limit = 100
+
     if params[:search]
       @query = params[:search].split(/\s+/)
       @songs = Song.search(@query).order("score desc")
     else
-      @songs = Song.random.sort_by { |s| -(s.score || 0) }
+      @songs = []
+      @songs = Song.top(limit) if params[:top]
+      @songs += Song.random(limit - @songs.size).sort_by { |s| -(s.score || 0) }
     end
 
     render @songs if request.xhr?
