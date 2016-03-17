@@ -81,6 +81,12 @@ class Song < ActiveRecord::Base
     thumbs.find_by(session_id: session_id)
   end
 
+  def nuke!
+    cdg.rm
+    mp3.rm
+    destroy
+  end
+
   ##############################################################
 
   def path
